@@ -1,5 +1,6 @@
 import axios from 'axios';
 const POKEDEX_CONTAINER = document.getElementById("pokedex");
+const SHOW_MORE = "Ver mas";
 
 class Pokedex {
   /*   me va a permitir almacenar el arreglo de pokemones
@@ -46,17 +47,23 @@ class Pokedex {
       return pokeContainer;
     }
     renderPokemonsAsCards(){
-        const pokemonCards = this.pokemones.map((pokemon) => {
+        POKEDEX_CONTAINER.innerHTML = "";
+        let promises = this.pokemones.map((pokemon) => {
           //const url = pokemon.url
           //esta forma de abajo es por destructuracion de objetos, que es mas chida
           const {url}  = pokemon;
-          axios.get(url)
-            .then(response => console.log(response.data))
-            .catch(error => console.log(error))
-          this.buildPokemonCard(pokemon);
+          return axios.get(url).then(response => response.data);
+          //this.buildPokemonCard(pokemon);
         });
-        POKEDEX_CONTAINER.innerHTML = "";
-        pokemonCards.map((pokemon) => POKEDEX_CONTAINER.appendChild(pokemon));  
+        //recuerda que Axios nos devuelve promesas
+        Promise.all(promises)
+        .then(pokemons => {
+          const pokemonCards = pokemons.map((pokemon) => this.buildPokemonCard(pokemon));
+          pokemonCards.map((pokemon => POKEDEX_CONTAINER.appendChild(pokemonCards)));
+        })
+        .catch(e => console.error(e))
+        //Bueno, esto es algo muy loco, porque al momento en el que mostramos este arreglo lleno de objetos pokemon, aparece vacio, pero unos instantes despues y al acceder al arreglo desde la consola, esta lleno, esto se debe a que 'va cambiando con el tiempo'.
+          
     }
   
 }

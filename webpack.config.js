@@ -1,6 +1,6 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const path = require('path');
+//const path = require('path');
 
 // commonJS
 module.exports = {
@@ -49,9 +49,4 @@ module.exports = {
             chunkFilename: "[id].css" // esto es para manejar muchas lineas de código
         })
     ],
-    output: {
-        path: path.join(__dirname, 'src/html'),
-        publicPath: '/src/html', // instead of publicPath: '/build/' 
-        filename: '[name].html'
-    },
 }
