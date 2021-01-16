@@ -93,7 +93,7 @@ class Pokedex {
   }
   buildPokeModalImage(pokemon){
     const pokeImage = document.createElement("img");
-    pokeImage.classList.add.("img-fluid");
+    pokeImage.classList.add("img-fluid");
     pokeImage.src = pokemon.sprites.front_default;
     pokeImage.alt = "Image of a pokemon!"
     return pokeImage;
